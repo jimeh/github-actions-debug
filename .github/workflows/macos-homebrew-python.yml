@@ -1,0 +1,26 @@
+---
+on:
+  workflow_dispatch:
+    inputs:
+      ilname:
+        description: "symlink targets"
+        required: true
+        default: "/Library/*/Python.framework/*"
+
+jobs:
+  dmgbuild:
+    runs-on: macos-11
+    steps:
+      - name: find symlinks to Python in /usr/local/bin
+        run: >-
+          find /usr/local/bin -type l
+          -ilname '${{ github.event.inputs.ilname }}'
+      - name: delete symlinks to Python in /usr/local/bin
+        run: >-
+          find /usr/local/bin -type l
+          -ilname '${{ github.event.inputs.ilname }}'
+          -delete
+      - name: Update homebrew
+        run: brew update
+      - name: Install python
+        run: brew install python@3.10
