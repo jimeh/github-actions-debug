@@ -1,0 +1,30 @@
+---
+name: macOS Runners
+on:
+  workflow_dispatch:
+
+jobs:
+  info:
+    strategy:
+      matrix:
+        os:
+          - macos-13
+          - macos-13-large
+          - macos-13-xlarge
+          - macos-14
+          - macos-14-large
+          - macos-14-xlarge
+          - macos-15
+          - macos-15-large
+          - macos-15-xlarge
+          - macos-latest
+          - macos-latest-large
+          - macos-latest-xlarge
+    runs-on: ${{ matrix.os }}
+    steps:
+      - run: |-
+          echo "runner.os: ${{ runner.os }}"
+          echo "runner.arch: ${{ runner.arch }}"
+          echo "macOS version: $(sw_vers -productVersion)"
+          echo "Kernel:"
+          uname -a
